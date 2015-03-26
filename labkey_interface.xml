@@ -1,0 +1,33 @@
+<tool id="labkey_interface" name="labkey_interface">
+
+  <description>Query LabKey for Data</description>
+  
+  <command>java -jar /home/jac/galaxy_2/tools/labkey_interface/labkey_interface.jar 
+    $url 
+    $user
+    $password
+    $query
+    $output
+  </command>
+
+  <inputs>
+    <param name="url" type="text" label="Path to Labkey: "/>
+    <param name="user" type="text" label="LabKey User: ">
+      <sanitizer>
+        <valid initial="string.printable"/>
+      </sanitizer>
+    </param>
+    <param name="password" type="text" label="LabKey Password: "/>
+    <param name="query" type="text" label="Search on Descriptor: " />
+  </inputs>
+  
+  <stdio>
+    <regex match="org.labkey.remoteapi.Command _execute" source="stderr" level="log" description="Status report"/>
+    <regex match="INFO: Requesting URL:" level="log" description="Requesting"/>
+  </stdio>
+
+  <outputs>
+    <data format="tabular" name="output" />
+  </outputs>
+
+</tool>
